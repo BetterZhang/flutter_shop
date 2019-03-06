@@ -1,5 +1,6 @@
-const serviceUrl = 'http://test.baixingliangfan.cn/baixing/';
+//const baseUrl = 'http://test.baixingliangfan.cn/baixing/';
+const baseUrl = 'http://61.163.2.122/baixing/';
 
 const servicePath = {
-  'homePageContent': serviceUrl + 'wxmini/homePageContent', //商店首页信息
+  'homePageContent': baseUrl + 'wxmini/homePageContent', //商店首页信息
 };

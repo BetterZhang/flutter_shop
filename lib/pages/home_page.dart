@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
             String adPicture = data['data']['advertesPicture']['PICTURE_ADDRESS'];
             String leaderImage = data['data']['shopInfo']['leaderImage'];
             String leaderPhone = data['data']['shopInfo']['leaderPhone'];
+            List<Map> recommendList = (data['data']['recommend'] as List).cast();
 
             return SingleChildScrollView(
               child: Column(
@@ -48,7 +49,8 @@ class _HomePageState extends State<HomePage> {
                   SwiperDiy(swiperDataList: swiperDataList),
                   TopGridView(navigatorList: navigatorList),
                   AdBanner(adPicture: adPicture),
-                  LeaderPhone(leaderImage: leaderImage, leaderPhone: leaderPhone)
+                  LeaderPhone(leaderImage: leaderImage, leaderPhone: leaderPhone),
+                  Recommend(recommendList: recommendList)
                 ],
               ),
             );
@@ -181,6 +183,84 @@ class LeaderPhone extends StatelessWidget {
     }
   }
 }
+
+// 商品推荐
+class Recommend extends StatelessWidget {
+  final List recommendList;
+
+  Recommend({Key key, this.recommendList}) : super(key: key);
+
+  // 标题方法
+  Widget _titleWidget() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(width: 1, color: Colors.black12))
+      ),
+      child: Text(
+        '商品推荐',
+        style: TextStyle(color: Colors.pink),
+      ),
+    );
+  }
+
+  // 商品单独项方法
+  Widget _item(index) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        height: ScreenUtil.getInstance().setHeight(330),
+        width: ScreenUtil.getInstance().setWidth(250),
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(left: BorderSide(width: 1, color: Colors.black12))
+        ),
+        child: Column(
+          children: <Widget>[
+            Image.network(recommendList[index]['image']),
+            Text('￥${recommendList[index]['mallPrice']}'),
+            Text(
+              '￥${recommendList[index]['price']}',
+              style: TextStyle(decoration: TextDecoration.lineThrough, color: Colors.grey),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  // 横向列表方法
+  Widget _recommendList() {
+    return Container(
+      height: ScreenUtil().setWidth(330),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: recommendList.length,
+        itemBuilder: (context, index) {
+          return _item(index);
+        }
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: ScreenUtil().setHeight(400),
+      margin: EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: <Widget>[
+          _titleWidget(),
+          _recommendList()
+        ],
+      ),
+    );
+  }
+}
+
 
 
 

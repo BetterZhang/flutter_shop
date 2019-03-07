@@ -50,6 +50,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             String leaderImage = data['data']['shopInfo']['leaderImage'];
             String leaderPhone = data['data']['shopInfo']['leaderPhone'];
             List<Map> recommendList = (data['data']['recommend'] as List).cast();
+            String floor1Title = data['data']['floor1Pic']['PICTURE_ADDRESS'];  // 楼层1的标题图片
+            String floor2Title = data['data']['floor2Pic']['PICTURE_ADDRESS'];  // 楼层1的标题图片
+            String floor3Title = data['data']['floor3Pic']['PICTURE_ADDRESS'];  // 楼层1的标题图片
+            List<Map> floor1 = (data['data']['floor1'] as List).cast();         // 楼层1商品和图片
+            List<Map> floor2 = (data['data']['floor2'] as List).cast();         // 楼层1商品和图片
+            List<Map> floor3 = (data['data']['floor3'] as List).cast();         // 楼层1商品和图片
 
             return SingleChildScrollView(
               child: Column(
@@ -58,7 +64,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   TopGridView(navigatorList: navigatorList),
                   AdBanner(adPicture: adPicture),
                   LeaderPhone(leaderImage: leaderImage, leaderPhone: leaderPhone),
-                  Recommend(recommendList: recommendList)
+                  Recommend(recommendList: recommendList),
+                  FloorTitle(titleImgUrl: floor1Title),
+                  FloorContent(floorGoodsList: floor1),
+                  FloorTitle(titleImgUrl: floor2Title),
+                  FloorContent(floorGoodsList: floor2),
+                  FloorTitle(titleImgUrl: floor3Title),
+                  FloorContent(floorGoodsList: floor3)
                 ],
               ),
             );
@@ -221,7 +233,7 @@ class Recommend extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Container(
-        height: ScreenUtil().setHeight(330),
+        height: ScreenUtil().setHeight(280),
         width: ScreenUtil().setWidth(250),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
@@ -245,7 +257,7 @@ class Recommend extends StatelessWidget {
   // 横向列表方法
   Widget _recommendList() {
     return Container(
-      height: ScreenUtil().setWidth(330),
+      height: ScreenUtil().setHeight(280),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: recommendList.length,
@@ -259,7 +271,7 @@ class Recommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(400),
+      height: ScreenUtil().setHeight(350),
       margin: EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
@@ -270,6 +282,81 @@ class Recommend extends StatelessWidget {
     );
   }
 }
+
+// 楼层标题
+class FloorTitle extends StatelessWidget {
+  final String titleImgUrl;
+  
+  FloorTitle({Key key, this.titleImgUrl}) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          print('点击了楼层标题');
+        },
+        child: Image.network(titleImgUrl),
+      ),
+    );
+  }
+}
+
+// 楼层商品组件
+class FloorContent extends StatelessWidget {
+  final List floorGoodsList;
+
+  FloorContent({Key key, this.floorGoodsList}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          _firstRow(),
+          _otherGoods()
+        ],
+      ),
+    );
+  }
+
+  Widget _firstRow() {
+    return Row(
+      children: <Widget>[
+        _goodsItem(floorGoodsList[0]),
+        Column(
+          children: <Widget>[
+            _goodsItem(floorGoodsList[1]),
+            _goodsItem(floorGoodsList[2])
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget _otherGoods() {
+    return Row(
+      children: <Widget>[
+        _goodsItem(floorGoodsList[3]),
+        _goodsItem(floorGoodsList[4])
+      ],
+    );
+  }
+  
+  Widget _goodsItem(Map goods) {
+    return Container(
+      width: ScreenUtil().setWidth(375),
+      child: InkWell(
+        onTap: () {
+          print('点击了楼层商品');
+        },
+        child: Image.network(goods['image']),
+      ),
+    );
+  }
+}
+
 
 
 

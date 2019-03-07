@@ -11,8 +11,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   String homePageContent = '正在获取数据';
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -23,10 +26,15 @@ class _HomePageState extends State<HomePage> {
       });
     });
     super.initState();
+    print('111111111');
   }
 
   @override
   Widget build(BuildContext context) {
+    print('设备像素密度：${ScreenUtil.pixelRatio}');
+    print('设备的高度：${ScreenUtil.screenHeight}');
+    print('设备的宽度：${ScreenUtil.screenWidth}');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('百姓生活+')
@@ -58,7 +66,7 @@ class _HomePageState extends State<HomePage> {
             return Center(
               child: Text(
                 '加载中...',
-                style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(28)),
+                style: TextStyle(fontSize: ScreenUtil().setSp(28)),
               ),
             );
           }
@@ -66,6 +74,7 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
+
 }
 
 // 首页轮播组件
@@ -109,7 +118,7 @@ class TopGridView extends StatelessWidget {
         children: <Widget>[
           Image.network(
             item['image'],
-            width: ScreenUtil.getInstance().setWidth(95),
+            width: ScreenUtil().setWidth(95),
           ),
           Text(item['mallCategoryName'])
         ],
@@ -124,7 +133,7 @@ class TopGridView extends StatelessWidget {
       navigatorList.removeRange(10, navigatorList.length);
     }
     return Container(
-      height: ScreenUtil.getInstance().setHeight(280),
+      height: ScreenUtil().setHeight(280),
       padding: EdgeInsets.all(3.0),
       child: GridView.count(
         crossAxisCount: 5,
@@ -175,11 +184,10 @@ class LeaderPhone extends StatelessWidget {
 
   void _launchUrl() async {
     String url = 'tel:$leaderPhone';
-    print(url);
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      throw('url不能访问，异常');
+      throw('Could not launch $url');
     }
   }
 }
@@ -197,7 +205,9 @@ class Recommend extends StatelessWidget {
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(bottom: BorderSide(width: 1, color: Colors.black12))
+        border: Border(
+          bottom: BorderSide(width: 1, color: Colors.black12)
+        )
       ),
       child: Text(
         '商品推荐',
@@ -211,8 +221,8 @@ class Recommend extends StatelessWidget {
     return InkWell(
       onTap: () {},
       child: Container(
-        height: ScreenUtil.getInstance().setHeight(330),
-        width: ScreenUtil.getInstance().setWidth(250),
+        height: ScreenUtil().setHeight(330),
+        width: ScreenUtil().setWidth(250),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.white,

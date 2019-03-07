@@ -70,7 +70,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   FloorTitle(titleImgUrl: floor2Title),
                   FloorContent(floorGoodsList: floor2),
                   FloorTitle(titleImgUrl: floor3Title),
-                  FloorContent(floorGoodsList: floor3)
+                  FloorContent(floorGoodsList: floor3),
+                  HotGoods()
                 ],
               ),
             );
@@ -353,6 +354,33 @@ class FloorContent extends StatelessWidget {
         },
         child: Image.network(goods['image']),
       ),
+    );
+  }
+}
+
+// 火爆专区
+class HotGoods extends StatefulWidget {
+  @override
+  _HotGoodsState createState() => _HotGoodsState();
+}
+
+class _HotGoodsState extends State<HotGoods> {
+
+  @override
+  void initState() {
+    super.initState();
+//    getHomePageBelowConten().then((data) {
+//      print(data);
+//    });
+    request('homePageBelowConten', 1).then((data) {
+      print('火爆专区数据 = $data');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('jspang'),
     );
   }
 }

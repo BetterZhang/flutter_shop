@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'service_url.dart';
 
-Future request(url, formData) async {
+Future request(url, {formData}) async {
   try {
     print('开始获取数据..........');
     Response response;

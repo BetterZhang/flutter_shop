@@ -150,6 +150,7 @@ class TopGridView extends StatelessWidget {
       padding: EdgeInsets.all(3.0),
       child: GridView.count(
         crossAxisCount: 5,
+        physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(5.0),
         children: navigatorList.map((item) {
           return _gridViewItem(item);

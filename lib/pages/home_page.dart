@@ -14,26 +14,41 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
+  // FutureBuilder对应的future
+  Future _future;
+  // 默认经纬度
+  var formData = {'lon': '115.02932', 'lat': '35.76189'};
+
+  // 首页火爆商品页码
   int page = 1;
+  // 首页火爆商品list
   List<Map> hotGoodsList = [];
 
-  GlobalKey<RefreshFooterState> _footKey = GlobalKey<RefreshFooterState>();
-
-  String homePageContent = '正在获取数据';
+  GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
+  GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
+  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 
   @override
   bool get wantKeepAlive => true;
 
+  // 获取首页火爆商品
+  void _requestHotGoods() {
+    request('homePageBelowConten', formData: page).then((val) {
+      print('page = $page');
+      setState(() {
+        var data = json.decode(val.toString());
+        hotGoodsList.addAll((data['data'] as List).cast());
+        page++;
+      });
+    });
+  }
+
   @override
   void initState() {
-//    getHomePageContent().then((data) {
-//      print('首页商品信息 = $data');
-//      setState(() {
-//        homePageContent = data.toString();
-//      });
-//    });
+    // FutureBuilder 多次触发解决 https://www.jianshu.com/p/74e52aa09986
+    _future = request('homePageContent', formData: formData);
+    _requestHotGoods();
     super.initState();
-    print('111111111');
   }
 
   @override
@@ -42,13 +57,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 //    print('设备的高度：${ScreenUtil.screenHeight}');
 //    print('设备的宽度：${ScreenUtil.screenWidth}');
 
-    var formData = {'lon': '115.02932', 'lat': '35.76189'};
     return Scaffold(
       appBar: AppBar(
         title: Text('百姓生活+')
       ),
       body: FutureBuilder(
-        future: request('homePageContent', formData: formData),
+        future: _future,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var data = json.decode(snapshot.data.toString());
@@ -58,6 +72,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             String leaderImage = data['data']['shopInfo']['leaderImage'];
             String leaderPhone = data['data']['shopInfo']['leaderPhone'];
             List<Map> recommendList = (data['data']['recommend'] as List).cast();
+
             String floor1Title = data['data']['floor1Pic']['PICTURE_ADDRESS'];  // 楼层1的标题图片
             String floor2Title = data['data']['floor2Pic']['PICTURE_ADDRESS'];  // 楼层1的标题图片
             String floor3Title = data['data']['floor3Pic']['PICTURE_ADDRESS'];  // 楼层1的标题图片
@@ -66,6 +81,34 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             List<Map> floor3 = (data['data']['floor3'] as List).cast();         // 楼层1商品和图片
 
             return EasyRefresh(
+              key: _easyRefreshKey,
+              autoLoad: false,
+              behavior: ScrollBehavior(),
+              refreshHeader: ClassicsHeader(
+                key: _headerKey,
+                bgColor: Colors.white,
+                textColor: Colors.pink,
+                moreInfoColor: Colors.pink,
+                refreshText: '下拉可以刷新',
+                refreshReadyText: '释放立即刷新',
+                refreshingText: '正在刷新...',
+                refreshedText: '刷新完成',
+                moreInfo: '上次更新',
+                showMore: true,
+              ),
+              refreshFooter: ClassicsFooter(
+                key: _footerKey,
+                bgColor: Colors.white,
+                textColor: Colors.pink,
+                moreInfoColor: Colors.pink,
+                loadText: '上拉加载',
+                loadReadyText: '释放立即加载',
+                loadingText: '正在加载...',
+                loadedText: '加载完成',
+                noMoreText: '加载完成',
+                moreInfo: '上次加载',
+                showMore: true,
+              ),
               child: ListView(
                 children: <Widget>[
                   SwiperDiy(swiperDataList: swiperDataList),
@@ -82,29 +125,23 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   _hotGoods()
                 ],
               ),
-              loadMore: () async {
-                print('开始加载更多');
-                var formPage = {'page', page};
-                print('page = $page');
-                await request('homePageBelowConten', formData: formPage).then((val) {
-                  var data = json.decode(val.toString());
-                  List<Map> newGoodsList = (data['data'] as List).cast();
+              onRefresh: () async {
+                print('下拉刷新');
+                await Future.delayed(Duration(seconds: 1), () {
                   setState(() {
-                    hotGoodsList.addAll(newGoodsList);
-                    page++;
+                    // 首页火爆商品页码重置，集合数据清除
+                    page = 1;
+                    hotGoodsList.clear();
+                    _requestHotGoods();
                   });
                 });
               },
-              refreshFooter: ClassicsFooter(
-                key: _footKey,
-                bgColor: Colors.white,
-                textColor: Colors.pink,
-                moreInfoColor: Colors.pink,
-                showMore: true,
-                noMoreText: '',
-                moreInfo: '加载中...',
-                loadReadyText: '上拉加载...',
-              ),
+              loadMore: () async {
+                print('加载更多...');
+                await Future.delayed(Duration(seconds: 1), () {
+                  _requestHotGoods();
+                });
+              },
             );
           } else {
             return Center(
@@ -162,8 +199,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text('￥${val['mallPrice']}'),
+                    SizedBox(
+                      width: 10,
+                    ),
                     Text(
                       '￥${val['price']}',
                       style: TextStyle(

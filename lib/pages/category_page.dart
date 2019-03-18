@@ -145,20 +145,20 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
             height: ScreenUtil().setHeight(80),
             width: ScreenUtil().setWidth(570),
             decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                    bottom: BorderSide(
-                        width: 1,
-                        color: Colors.black12
-                    )
+              color: Colors.white,
+              border: Border(
+                bottom: BorderSide(
+                  width: 1,
+                  color: Colors.black12
                 )
+              )
             ),
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: childCategory.childCategoryList.length,
-                itemBuilder: (context, index) {
-                  return _rightInkWell(childCategory.childCategoryList[index]);
-                }
+              scrollDirection: Axis.horizontal,
+              itemCount: childCategory.childCategoryList.length,
+              itemBuilder: (context, index) {
+                return _rightInkWell(childCategory.childCategoryList[index]);
+              }
             ),
           );
         },

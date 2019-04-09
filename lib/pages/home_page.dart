@@ -111,6 +111,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                 moreInfo: '上次加载',
                 showMore: true,
               ),
+              // 使用flutter_easyrefresh插件，要求我们必须是一个ListView，这里要改造之前的代码
               child: ListView(
                 children: <Widget>[
                   SwiperDiy(swiperDataList: swiperDataList),

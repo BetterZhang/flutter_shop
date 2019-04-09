@@ -223,8 +223,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       }).toList();
 
       return Wrap(
-          spacing: 2,
-          children: listWidget
+        spacing: 2,
+        children: listWidget
       );
     } else {
       return Text('');

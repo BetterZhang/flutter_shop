@@ -33,9 +33,9 @@ class _HomePageHeaderState extends State<HomePageHeader> {
   
   void _jike() {
     print('开始向极客时间请求数据..................');
-    getHttp().then((data) {
+    getHttp().then((val) {
       setState(() {
-        showText = data['data'].toString();
+        showText = val['data'].toString();
       });
     });
   }
@@ -45,9 +45,8 @@ class _HomePageHeaderState extends State<HomePageHeader> {
       Response response;
       Dio dio = new Dio();
       dio.options.headers = httpHeaders;
-      response = await dio.post(
-        'https://time.geekbang.org/serv/v1/column/newAll',
-        queryParameters: {'type': 1}
+      response = await dio.get(
+        'https://time.geekbang.org/serv/v1/column/newAll'
       );
       print(response);
       return response.data;

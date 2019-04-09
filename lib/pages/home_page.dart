@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   // 首页火爆商品页码
   int page = 1;
+  var formPage;
   // 首页火爆商品list
   List<Map> hotGoodsList = [];
 
@@ -33,7 +34,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   // 获取首页火爆商品
   void _requestHotGoods() {
-    request('homePageBelowConten', formData: page).then((val) {
+    formPage = {'page': page};
+    request('homePageBelowConten', formData: formPage).then((val) {
       print('page = $page');
       setState(() {
         var data = json.decode(val.toString());

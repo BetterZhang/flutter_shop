@@ -6,6 +6,7 @@ import 'home_page.dart';
 import 'category_page.dart';
 import 'cart_page.dart';
 import 'member_page.dart';
+//import 'home_page_header.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _IndexPageState extends State<IndexPage> {
   ];
 
   final List<Widget> tabPages = [
+//    HomePageHeader(),
     HomePage(),
     CategoryPage(),
     CartPage(),

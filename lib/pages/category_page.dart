@@ -52,6 +52,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     super.initState();
   }
 
+  // 得到后台大类数据
   void _getCategory() async {
     await request('getCategory').then((val) {
       var data = json.decode(val.toString());

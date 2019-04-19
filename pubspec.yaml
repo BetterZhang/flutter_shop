@@ -35,6 +35,8 @@ dependencies:
   flutter_easyrefresh: ^1.2.7
   # provide
   provide: ^1.0.2
+  # fluttertoast
+  fluttertoast: ^3.0.4
 
 
 dev_dependencies:

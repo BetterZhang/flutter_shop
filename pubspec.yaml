@@ -24,11 +24,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   # dio 网络框架
-  dio: ^2.1.0
+  dio: ^2.1.7
   # swiper
   flutter_swiper: ^1.1.6
   # screen util
-  flutter_screenutil: ^0.5.1
+  flutter_screenutil: ^0.5.2
   # url_launcher
   url_launcher: ^5.0.2
   # easyrefresh
@@ -36,7 +36,7 @@ dependencies:
   # provide
   provide: ^1.0.2
   # fluttertoast
-  fluttertoast: ^3.0.4
+  fluttertoast: ^3.1.0
   # fluro
   fluro: "^1.4.0"
 

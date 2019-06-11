@@ -13,7 +13,6 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(item);
     return Container(
       margin: EdgeInsets.fromLTRB(5.0, 2.0, 5.0, 2.0),
       padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
@@ -28,7 +27,7 @@ class CartItem extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          _cartCheckBtn(item),
+          _cartCheckBtn(context, item),
           _cartImage(item),
           _cartGoodsName(item),
           _cartPrice(context, item),
@@ -38,13 +37,14 @@ class CartItem extends StatelessWidget {
   }
 
   // 多选按钮
-  Widget _cartCheckBtn(item) {
+  Widget _cartCheckBtn(context, item) {
     return Container(
       child: Checkbox(
         value: item.isCheck,
         activeColor: Colors.pink,
         onChanged: (bool val) {
           item.isCheck = val;
+          Provide.value<CartProvide>(context).changeCheckState(item);
         }
       ),
     );

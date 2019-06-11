@@ -82,6 +82,28 @@ class CartProvide with ChangeNotifier {
     notifyListeners();
   }
 
+  // 修改选择状态
+  changeCheckState(CartInfoModel cartItem) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('cartInfo');
+    List<Map> tempList = (json.decode(cartString) as List).cast();
+
+    int tempIndex = 0;
+    int changeIndex = 0;
+
+    tempList.forEach((item) {
+      if (item['goodsId'] == cartItem.goodsId) {
+        changeIndex = tempIndex;
+      }
+      tempIndex++;
+    });
+
+    tempList[changeIndex] = cartItem.toJson();
+    cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+    await getCartInfo();
+  }
+
   // 删除单个购物车商品
   deleteOneGoods(String goodsId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -90,6 +112,7 @@ class CartProvide with ChangeNotifier {
 
     int tempIndex = 0;
     int delIndex = 0;
+
     tempList.forEach((item) {
       if (item['goodsId'] == goodsId) {
         delIndex = tempIndex;

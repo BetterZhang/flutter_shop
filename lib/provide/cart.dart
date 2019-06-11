@@ -7,7 +7,11 @@ import '../model/cartInfo.dart';
 class CartProvide with ChangeNotifier {
 
   String cartString = '[]';
+  // 商品列表对象
   List<CartInfoModel> cartList = [];
+
+  double allPrice = 0;    // 总价格
+  int allGoodsCount = 0;  // 商品总数量
 
   save(goodsId, goodsName, count, price, images) async {
     // 初始化SharedPreferences
@@ -68,6 +72,7 @@ class CartProvide with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // 获得购物车中的商品,这时候是一个字符串
     cartString = prefs.getString('cartInfo');
+
     // 把cartList进行初始化，防止数据混乱
     cartList = [];
     // 判断得到的字符串是否有值，如果不判断会报错
@@ -75,7 +80,15 @@ class CartProvide with ChangeNotifier {
       cartList = [];
     } else {
       List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+
+      allPrice = 0;
+      allGoodsCount = 0;
+
       tempList.forEach((item) {
+        if (item['isCheck']) {
+          allPrice += (item['count'] * item['price']);
+          allGoodsCount += item['count'];
+        }
         cartList.add(new CartInfoModel.fromJson(item));
       });
     }

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-
 import '../service/service_method.dart';
 import '../routers/application.dart';
 
@@ -422,7 +421,7 @@ class Recommend extends StatelessWidget {
   }
 
   // 横向列表方法
-  Widget _recommendList() {
+  Widget _recommendList(BuildContext context) {
     return Container(
       height: ScreenUtil().setHeight(280),
       child: ListView.builder(
@@ -443,7 +442,7 @@ class Recommend extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _titleWidget(),
-          _recommendList()
+          _recommendList(context)
         ],
       ),
     );
@@ -488,7 +487,7 @@ class FloorContent extends StatelessWidget {
     );
   }
 
-  Widget _firstRow(context, ) {
+  Widget _firstRow(context) {
     return Row(
       children: <Widget>[
         _goodsItem(context, floorGoodsList[0]),

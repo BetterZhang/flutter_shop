@@ -73,7 +73,11 @@ class CartItem extends StatelessWidget {
       alignment: Alignment.topLeft,
       child: Column(
         children: <Widget>[
-          Text(item.goodsName),
+          Text(
+            item.goodsName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           CartCount(item),
         ],
       ),
@@ -94,7 +98,7 @@ class CartItem extends StatelessWidget {
                 Provide.value<CartProvide>(context).deleteOneGoods(item.goodsId);
               },
               child: Icon(
-                Icons.delete_forever,
+                Icons.delete,
                 color: Colors.black26,
                 size: 30,
               ),

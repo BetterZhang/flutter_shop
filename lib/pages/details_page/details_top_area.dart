@@ -33,7 +33,7 @@ class DetailsTopArea extends StatelessWidget {
   Widget _goodsImage(url) {
     return Image.network(
       url,
-      width: ScreenUtil().setWidth(740),
+      width: ScreenUtil().setWidth(750),
     );
   }
 
@@ -41,7 +41,7 @@ class DetailsTopArea extends StatelessWidget {
   Widget _goodsName(name) {
     return Container(
       width: ScreenUtil().setWidth(730),
-      padding: EdgeInsets.only(left: 15.0),
+      padding: EdgeInsets.only(left: 10.0),
       child: Text(
         name,
         maxLines: 1,
@@ -56,7 +56,7 @@ class DetailsTopArea extends StatelessWidget {
   Widget _goodsNum(num) {
     return Container(
       width: ScreenUtil().setWidth(730),
-      padding: EdgeInsets.only(left: 15.0),
+      padding: EdgeInsets.only(left: 10.0),
       margin: EdgeInsets.only(top: 8.0),
       child: Text(
         '编号：$num',
@@ -71,7 +71,7 @@ class DetailsTopArea extends StatelessWidget {
   Widget _goodsPrice(presentPrice, oriPrice) {
     return Container(
       width: ScreenUtil().setWidth(730),
-      padding: EdgeInsets.only(left: 15.0),
+      padding: EdgeInsets.only(left: 10.0),
       margin: EdgeInsets.only(top: 8.0),
       child: Row(
         children: <Widget>[
@@ -81,6 +81,9 @@ class DetailsTopArea extends StatelessWidget {
               color: Colors.pinkAccent,
               fontSize: ScreenUtil().setSp(40),
             ),
+          ),
+          SizedBox(
+            width: ScreenUtil().setWidth(25),
           ),
           Text(
             '市场价：￥$oriPrice',

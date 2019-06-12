@@ -34,6 +34,7 @@ class MemberPage extends StatelessWidget {
             child: ClipOval(
               child: Image.network(
                 'http://blogimages.jspang.com/blogtouxiang1.jpg',
+                scale: 2,
               ),
             ),
           ),
@@ -60,7 +61,7 @@ class MemberPage extends StatelessWidget {
         color: Colors.white,
         border: Border(
           bottom: BorderSide(
-            width: 1,
+            width: 0.5,
             color: Colors.black12,
           )
         )
@@ -174,7 +175,7 @@ class MemberPage extends StatelessWidget {
         color: Colors.white,
         border: Border(
           bottom: BorderSide(
-            width: 1,
+            width: 0.5,
             color: Colors.black12,
           )
         )

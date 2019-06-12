@@ -13,7 +13,7 @@ class DetailsExplain extends StatelessWidget {
         '说明 > 急速送达 > 正品保证',
         style: TextStyle(
           color: Colors.red,
-          fontSize: ScreenUtil().setSp(30),
+          fontSize: ScreenUtil().setSp(28),
         ),
       ),
     );

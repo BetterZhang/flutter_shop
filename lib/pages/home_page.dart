@@ -382,7 +382,7 @@ class Recommend extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(
-          bottom: BorderSide(width: 1, color: Colors.black12)
+          bottom: BorderSide(width: 0.5, color: Colors.black12)
         )
       ),
       child: Text(
@@ -404,7 +404,7 @@ class Recommend extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(left: BorderSide(width: 1, color: Colors.black12))
+          border: Border(left: BorderSide(width: 0.5, color: Colors.black12))
         ),
         child: Column(
           children: <Widget>[

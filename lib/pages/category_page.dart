@@ -97,7 +97,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       decoration: BoxDecoration(
         border: Border(
           right: BorderSide(
-            width: 1,
+            width: 0.5,
             color: Colors.black12
           )
         ),
@@ -134,7 +134,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
           color: isClick ? Color.fromRGBO(236, 238, 239, 1.0) : Colors.white,
           border: Border(
             bottom: BorderSide(
-              width: 1,
+              width: 0.5,
               color: Colors.black12
             )
           )
@@ -172,7 +172,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
               color: Colors.white,
               border: Border(
                 bottom: BorderSide(
-                  width: 1,
+                  width: 0.5,
                   color: Colors.black12
                 )
               )
@@ -342,7 +342,7 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
           color: Colors.white,
           border: Border(
             bottom: BorderSide(
-              width: 1.0,
+              width: 0.5,
               color: Colors.black12
             )
           )
@@ -399,6 +399,9 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
               color: Colors.pink,
               fontSize: ScreenUtil().setSp(30)
             ),
+          ),
+          SizedBox(
+            width: ScreenUtil().setWidth(20),
           ),
           Text(
             '￥${newList[index].oriPrice}',

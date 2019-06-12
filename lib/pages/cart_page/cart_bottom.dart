@@ -56,9 +56,9 @@ class CartBottom extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 width: ScreenUtil().setWidth(200),
                 child: Text(
-                  '合计',
+                  '合计：',
                   style: TextStyle(
-                    fontSize: ScreenUtil().setSp(36)
+                    fontSize: ScreenUtil().setSp(30)
                   ),
                 ),
               ),
@@ -68,7 +68,7 @@ class CartBottom extends StatelessWidget {
                 child: Text(
                   '￥$allPrice',
                   style: TextStyle(
-                    fontSize: ScreenUtil().setSp(36),
+                    fontSize: ScreenUtil().setSp(30),
                     color: Colors.red
                   ),
                 ),

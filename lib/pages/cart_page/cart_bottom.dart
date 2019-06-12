@@ -10,25 +10,32 @@ class CartBottom extends StatelessWidget {
       margin: EdgeInsets.all(5.0),
       color: Colors.white,
       width: ScreenUtil().setWidth(750),
-      child: Row(
-        children: <Widget>[
-          selectAllBtn(context),
-          allPriceArea(context),
-          goButton(context),
-        ],
+      child: Provide<CartProvide>(
+        builder: (context, child, childCategory) {
+          return Row(
+            children: <Widget>[
+              selectAllBtn(context),
+              allPriceArea(context),
+              goButton(context),
+            ],
+          );
+        }
       ),
     );
   }
 
   // 全选按钮
   Widget selectAllBtn(context) {
+    bool isAllCheck = Provide.value<CartProvide>(context).isAllCheck;
     return Container(
       child: Row(
         children: <Widget>[
           Checkbox(
-            value: true,
+            value: isAllCheck,
             activeColor: Colors.pink,
-            onChanged: (bool val) {}
+            onChanged: (bool val) {
+              Provide.value<CartProvide>(context).changeAllCheckBtnState(val);
+            }
           ),
           Text('全选')
         ],

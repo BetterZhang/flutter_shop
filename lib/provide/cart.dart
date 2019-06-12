@@ -12,6 +12,7 @@ class CartProvide with ChangeNotifier {
 
   double allPrice = 0;    // 总价格
   int allGoodsCount = 0;  // 商品总数量
+  bool isAllCheck = true; // 是否全选
 
   save(goodsId, goodsName, count, price, images) async {
     // 初始化SharedPreferences
@@ -83,11 +84,14 @@ class CartProvide with ChangeNotifier {
 
       allPrice = 0;
       allGoodsCount = 0;
+      isAllCheck = true;
 
       tempList.forEach((item) {
         if (item['isCheck']) {
           allPrice += (item['count'] * item['price']);
           allGoodsCount += item['count'];
+        } else {
+          isAllCheck = false;
         }
         cartList.add(new CartInfoModel.fromJson(item));
       });
@@ -101,11 +105,12 @@ class CartProvide with ChangeNotifier {
     cartString = prefs.getString('cartInfo');
     List<Map> tempList = (json.decode(cartString) as List).cast();
 
-    int tempIndex = 0;
-    int changeIndex = 0;
+    int tempIndex = 0;      // 循环使用索引
+    int changeIndex = 0;    // 需要修改的索引
 
     tempList.forEach((item) {
       if (item['goodsId'] == cartItem.goodsId) {
+        // 找到索引进行复制
         changeIndex = tempIndex;
       }
       tempIndex++;
@@ -114,6 +119,7 @@ class CartProvide with ChangeNotifier {
     tempList[changeIndex] = cartItem.toJson();
     cartString = json.encode(tempList).toString();
     prefs.setString('cartInfo', cartString);
+    // 重新读取列表
     await getCartInfo();
   }
 
@@ -135,6 +141,24 @@ class CartProvide with ChangeNotifier {
 
     tempList.removeAt(delIndex);
     cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+    await getCartInfo();
+  }
+
+  // 点击全选按钮操作
+  changeAllCheckBtnState(bool isCheck) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('cartInfo');
+    List<Map> tempList = (json.decode(cartString) as List).cast();
+    List<Map> newList = [];
+
+    for (var item in tempList) {
+      var newItem = item;
+      newItem['isCheck'] = isCheck;
+      newList.add(newItem);
+    }
+
+    cartString = json.encode(newList).toString();
     prefs.setString('cartInfo', cartString);
     await getCartInfo();
   }

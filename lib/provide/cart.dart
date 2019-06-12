@@ -72,11 +72,15 @@ class CartProvide with ChangeNotifier {
     notifyListeners();
   }
 
+  // 删除购物车中的商品
   remove() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 //    prefs.clear();  // 清空键值对
     prefs.remove('cartInfo');
-    print('清空完成');
+    cartList = [];
+    allPrice = 0;
+    allGoodsCount = 0;
+    print('--------清空完成--------');
     notifyListeners();
   }
 

@@ -7,7 +7,6 @@ class CartBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
       color: Colors.white,
       width: ScreenUtil().setWidth(750),
       child: Provide<CartProvide>(
@@ -47,7 +46,7 @@ class CartBottom extends StatelessWidget {
   Widget allPriceArea(context) {
     double allPrice = Provide.value<CartProvide>(context).allPrice;
     return Container(
-      width: ScreenUtil().setWidth(430),
+      width: ScreenUtil().setWidth(400),
       alignment: Alignment.centerRight,
       child: Column(
         children: <Widget>[
@@ -55,7 +54,7 @@ class CartBottom extends StatelessWidget {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerRight,
-                width: ScreenUtil().setWidth(230),
+                width: ScreenUtil().setWidth(200),
                 child: Text(
                   '合计',
                   style: TextStyle(
@@ -77,10 +76,12 @@ class CartBottom extends StatelessWidget {
             ],
           ),
           Container(
-            width: ScreenUtil().setWidth(430),
+            width: ScreenUtil().setWidth(400),
             alignment: Alignment.centerRight,
             child: Text(
               '满10元免配送费，预约免配送费',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: Colors.black38,
                 fontSize: ScreenUtil().setSp(22)
@@ -97,11 +98,11 @@ class CartBottom extends StatelessWidget {
     int allGoodsCount = Provide.value<CartProvide>(context).allGoodsCount;
     return Container(
       width: ScreenUtil().setWidth(160),
-      padding: EdgeInsets.only(left: 10),
+      margin: EdgeInsets.all(ScreenUtil().setWidth(15)),
       child: InkWell(
         onTap: () {},
         child: Container(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(10)),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: Colors.red,

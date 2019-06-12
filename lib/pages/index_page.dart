@@ -46,6 +46,8 @@ class IndexPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
           bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.white,
+            elevation: 10,
             type: BottomNavigationBarType.fixed,
             currentIndex: currentIndex,
             items: bottomTabs,

@@ -30,9 +30,11 @@ class MemberPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 30),
+            margin: EdgeInsets.only(top: 10),
             child: ClipOval(
-              child: Image.network('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1908237277,3843328349&fm=27&gp=0.jpg'),
+              child: Image.network(
+                'http://blogimages.jspang.com/blogtouxiang1.jpg',
+              ),
             ),
           ),
           Container(
@@ -88,7 +90,15 @@ class MemberPage extends StatelessWidget {
                   Icons.monetization_on,
                   size: 30,
                 ),
-                Text('待付款'),
+                SizedBox(
+                  height: ScreenUtil().setHeight(10),
+                ),
+                Text(
+                  '待付款',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(28),
+                  ),
+                ),
               ],
             ),
           ),
@@ -100,7 +110,15 @@ class MemberPage extends StatelessWidget {
                   Icons.query_builder,
                   size: 30,
                 ),
-                Text('待发货'),
+                SizedBox(
+                  height: ScreenUtil().setHeight(10),
+                ),
+                Text(
+                  '待发货',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(28),
+                  ),
+                ),
               ],
             ),
           ),
@@ -112,7 +130,15 @@ class MemberPage extends StatelessWidget {
                   Icons.directions_car,
                   size: 30,
                 ),
-                Text('待收货'),
+                SizedBox(
+                  height: ScreenUtil().setHeight(10),
+                ),
+                Text(
+                  '待收货',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(28),
+                  ),
+                ),
               ],
             ),
           ),
@@ -124,7 +150,15 @@ class MemberPage extends StatelessWidget {
                   Icons.content_paste,
                   size: 30,
                 ),
-                Text('待评价'),
+                SizedBox(
+                  height: ScreenUtil().setHeight(10),
+                ),
+                Text(
+                  '待评价',
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(28),
+                  ),
+                ),
               ],
             ),
           ),
@@ -147,7 +181,12 @@ class MemberPage extends StatelessWidget {
       ),
       child: ListTile(
         leading: icon,
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(30),
+          ),
+        ),
         trailing: Icon(Icons.keyboard_arrow_right),
       ),
     );

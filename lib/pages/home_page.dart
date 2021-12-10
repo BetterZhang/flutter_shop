@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   // 首页火爆商品list
   List<Map> hotGoodsList = [];
 
-  GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-  GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+  // GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
+  // GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
+  // GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 
   @override
   bool get wantKeepAlive => true;
@@ -83,33 +83,33 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             List<Map> floor3 = (data['data']['floor3'] as List).cast();         // 楼层1商品和图片
 
             return EasyRefresh(
-              key: _easyRefreshKey,
-              autoLoad: false,
+              // key: _easyRefreshKey,
+              // autoLoad: false,
               behavior: ScrollBehavior(),
-              refreshHeader: ClassicsHeader(
-                key: _headerKey,
+              header: ClassicalHeader(
+                // key: _headerKey,
                 bgColor: Colors.white,
                 textColor: Colors.pink,
-                moreInfoColor: Colors.pink,
+                // moreInfoColor: Colors.pink,
                 refreshText: '下拉可以刷新',
                 refreshReadyText: '释放立即刷新',
                 refreshingText: '正在刷新...',
                 refreshedText: '刷新完成',
-                moreInfo: '上次更新',
-                showMore: true,
+                // moreInfo: '上次更新',
+                // showMore: true,
               ),
-              refreshFooter: ClassicsFooter(
-                key: _footerKey,
+              footer: ClassicalFooter(
+                // key: _footerKey,
                 bgColor: Colors.white,
                 textColor: Colors.pink,
-                moreInfoColor: Colors.pink,
+                // moreInfoColor: Colors.pink,
                 loadText: '上拉加载',
                 loadReadyText: '释放立即加载',
                 loadingText: '正在加载...',
                 loadedText: '加载完成',
                 noMoreText: '加载完成',
-                moreInfo: '上次加载',
-                showMore: true,
+                // moreInfo: '上次加载',
+                // showMore: true,
               ),
               // 使用flutter_easyrefresh插件，要求我们必须是一个ListView，这里要改造之前的代码
               child: ListView(
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   });
                 });
               },
-              loadMore: () async {
+              onLoad: () async {
                 print('加载更多...');
                 await Future.delayed(Duration(seconds: 1), () {
                   _requestHotGoods();

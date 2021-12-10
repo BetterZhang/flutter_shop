@@ -3,9 +3,9 @@ import '../service/service_method.dart';
 import 'dart:convert';
 import '../model/category.dart';
 import '../model/categoryGoodsList.dart';
-import 'package:provide/provide.dart';
-import '../provide/child_category.dart';
-import '../provide/category_goods_list.dart';
+import 'package:provider/provider.dart';
+import '../provider/child_category.dart';
+import '../provider/category_goods_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -69,7 +69,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         list = category.data;
       });
 
-      Provide.value<ChildCategory>(context).getChildCategory(list[0].bxMallSubDto, list[0].mallCategoryId);
+      context.read<ChildCategory>().getChildCategory(list[0].bxMallSubDto, list[0].mallCategoryId);
       print(list[0].bxMallSubDto);
       list[0].bxMallSubDto.forEach(
         (item) => print(item.mallSubName)
@@ -86,7 +86,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     await request('getMallGoods', formData: data).then((val) {
       var data = json.decode(val.toString());
       CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
-      Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodsList.data);
+      context.read<CategoryGoodsListProvide>().getGoodsList(goodsList.data);
     });
   }
 
@@ -124,7 +124,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
         var childList = list[index].bxMallSubDto;
         var categoryId = list[index].mallCategoryId;
-        Provide.value<ChildCategory>(context).getChildCategory(childList, categoryId);
+        context.read<ChildCategory>().getChildCategory(childList, categoryId);
         _getGoodList(categoryId: categoryId);
       },
       child: Container(
@@ -163,62 +163,54 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Provide<ChildCategory>(
-        builder: (context, child, childCategory) {
-          return Container(
-            height: ScreenUtil().setHeight(80),
-            width: ScreenUtil().setWidth(570),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                bottom: BorderSide(
-                  width: 0.5,
-                  color: Colors.black12
-                )
-              )
-            ),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: childCategory.childCategoryList.length,
-              itemBuilder: (context, index) {
-                return _rightInkWell(childCategory.childCategoryList[index], index);
-              }
-            ),
-          );
-        },
-      ),
+      child: Container(
+        height: ScreenUtil().setHeight(80),
+        width: ScreenUtil().setWidth(570),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(
+              width: 0.5,
+              color: Colors.black12
+            )
+          )
+        ),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: context.watch<ChildCategory>().childCategoryList.length,
+          itemBuilder: (context, index) {
+            return _rightInkWell(context.watch<ChildCategory>().childCategoryList[index], index);
+          }
+        ),
+      )
     );
   }
 
   Widget _rightInkWell(BxMallSubDto item, int index) {
     bool isChecked = false;
-    isChecked = Provide.value<ChildCategory>(context).childIndex == index;
+    isChecked = context.read<ChildCategory>().childIndex == index;
 
-    return Provide<ChildCategory>(
-      builder: (context, child, childCategory) {
-        return InkWell(
-          onTap: () {
-            Provide.value<ChildCategory>(context).changeChildIndex(index, item.mallSubId);
-            _getGoodList(item.mallSubId);
-          },
-          child: Container(
-            padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
-            child: Text(
-              item.mallSubName,
-              style: TextStyle(
-                color: isChecked ? Colors.pink : Colors.black,
-                fontSize: ScreenUtil().setSp(26),
-              ),
-            ),
-          ),
-        );
+    return InkWell(
+      onTap: () {
+        context.read<ChildCategory>().changeChildIndex(index, item.mallSubId);
+        _getGoodList(item.mallSubId);
       },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+        child: Text(
+          item.mallSubName,
+          style: TextStyle(
+            color: isChecked ? Colors.pink : Colors.black,
+            fontSize: ScreenUtil().setSp(26),
+          ),
+        ),
+      ),
     );
   }
 
   void _getGoodList(String categorySubId) async {
     var data = {
-      'categoryId': Provide.value<ChildCategory>(context).categoryId,
+      'categoryId': context.read<ChildCategory>().categoryId,
       'categorySubId': categorySubId,
       'page': '1'
     };
@@ -227,9 +219,9 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
       CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
 
       if (goodsList.data == null)
-        Provide.value<CategoryGoodsListProvide>(context).getGoodsList([]);
+        context.read<CategoryGoodsListProvide>().getGoodsList([]);
       else
-        Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodsList.data);
+        context.read<CategoryGoodsListProvide>().getGoodsList(goodsList.data);
     });
   }
 }
@@ -242,95 +234,91 @@ class CategoryGoodsList extends StatefulWidget {
 
 class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
-  GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+  // GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
+  // GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 
   var scrollController = new ScrollController();
 
   // 上拉加载更多的方法
   void _getMoreGoodsList() async {
-    Provide.value<ChildCategory>(context).addPage();
+    context.read<ChildCategory>().addPage();
     
     var data = {
-      'categoryId': Provide.value<ChildCategory>(context).categoryId,
-      'categorySubId': Provide.value<ChildCategory>(context).subId,
-      'page': Provide.value<ChildCategory>(context).page
+      'categoryId': context.read<ChildCategory>().categoryId,
+      'categorySubId': context.read<ChildCategory>().subId,
+      'page': context.read<ChildCategory>().page
     };
     await request('getMallGoods', formData: data).then((val) {
       var data = json.decode(val.toString());
       CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
 
       if (goodsList.data == null) {
-        Provide.value<ChildCategory>(context).changeNoMore('没有更多了');
+        context.read<ChildCategory>().changeNoMore('没有更多了');
         Fluttertoast.showToast(
           msg: '已经到底了',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIos: 1,
+          timeInSecForIosWeb: 1,
           backgroundColor: Colors.pink,
           textColor: Colors.white,
           fontSize: 16.0
         );
       } else {
-        Provide.value<CategoryGoodsListProvide>(context).getMoreGoodsList(goodsList.data);
+        context.read<CategoryGoodsListProvide>().getMoreGoodsList(goodsList.data);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Provide<CategoryGoodsListProvide>(
-      builder: (context, child, data) {
-        try {
-          if (Provide.value<ChildCategory>(context).page == 1) {
-            // 列表位置放到最上边
-            scrollController.jumpTo(0.0);
-          }
-        } catch (e) {
-          print('进入页面第一次初始化:$e');
-        }
-        if (data.goodsList.length > 0) {
-          return Expanded(
-            child: Container(
-              width: ScreenUtil().setWidth(570),
-              child: EasyRefresh(
-                key: _easyRefreshKey,
-                autoLoad: false,
-                behavior: ScrollBehavior(),
-                refreshFooter: ClassicsFooter(
-                  key: _footerKey,
-                  bgColor: Colors.white,
-                  textColor: Colors.pink,
-                  moreInfoColor: Colors.pink,
-                  loadText: '上拉加载',
-                  loadReadyText: '释放立即加载',
-                  loadingText: '正在加载...',
-                  loadedText: '加载完成',
-                  noMoreText: Provide.value<ChildCategory>(context).noMoreText,
-                  moreInfo: '上次加载',
-                  showMore: true,
-                ),
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: data.goodsList.length,
-                  itemBuilder: (context, index) {
-                    return _listWidget(data.goodsList, index);
-                  }
-                ),
-                loadMore: () async {
-                  print('加载更多...');
-                  await Future.delayed(Duration(seconds: 1), () {
-                    _getMoreGoodsList();
-                  });
-                },
-              )
+    try {
+      if (context.read<ChildCategory>().page == 1) {
+        // 列表位置放到最上边
+        scrollController.jumpTo(0.0);
+      }
+    } catch (e) {
+      print('进入页面第一次初始化:$e');
+    }
+    if (context.read<CategoryGoodsListProvide>().goodsList.length > 0) {
+      return Expanded(
+        child: Container(
+          width: ScreenUtil().setWidth(570),
+          child: EasyRefresh(
+            // key: _easyRefreshKey,
+            // autoLoad: false,
+            behavior: ScrollBehavior(),
+            footer: ClassicalFooter(
+              // key: _footerKey,
+              bgColor: Colors.white,
+              textColor: Colors.pink,
+              // moreInfoColor: Colors.pink,
+              loadText: '上拉加载',
+              loadReadyText: '释放立即加载',
+              loadingText: '正在加载...',
+              loadedText: '加载完成',
+              noMoreText: context.read<ChildCategory>().noMoreText,
+              // moreInfo: '上次加载',
+              // showMore: true,
             ),
-          );
-        } else {
-          return Text('暂时没有数据');
-        }
-      },
-    );
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: context.read<CategoryGoodsListProvide>().goodsList.length,
+              itemBuilder: (context, index) {
+                return _listWidget(context.read<CategoryGoodsListProvide>().goodsList, index);
+              }
+            ),
+            onLoad: () async {
+              print('加载更多...');
+              await Future.delayed(Duration(seconds: 1), () {
+                _getMoreGoodsList();
+              });
+            },
+          )
+        ),
+      );
+    } else {
+      return Text('暂时没有数据');
+    }
   }
 
   Widget _listWidget(newList, index) {

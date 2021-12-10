@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/cartInfo.dart';

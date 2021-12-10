@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
-import '../../provide/details_info.dart';
+import 'package:provider/provider.dart';
+import '../../provider/details_info.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsTopArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provide<DetailsInfoProvide>(
-      builder: (context, child, val) {
-        var goodsInfo = Provide.value<DetailsInfoProvide>(context).goodsInfo.data.goodInfo;
-        if (goodsInfo != null) {
-          return Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(2.0),
-            child: Column(
-              children: <Widget>[
-                _goodsImage(goodsInfo.image1),
-                _goodsName(goodsInfo.goodsName),
-                _goodsNum(goodsInfo.goodsSerialNumber),
-                _goodsPrice(goodsInfo.presentPrice, goodsInfo.oriPrice),
-              ],
-            ),
-          );
-        } else {
-          return Text('正在加载中...');
-        }
-      },
-    );
+    var goodsInfo = context.read<DetailsInfoProvide>().goodsInfo.data.goodInfo;
+    if (goodsInfo != null) {
+      return Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(2.0),
+        child: Column(
+          children: <Widget>[
+            _goodsImage(goodsInfo.image1),
+            _goodsName(goodsInfo.goodsName),
+            _goodsNum(goodsInfo.goodsSerialNumber),
+            _goodsPrice(goodsInfo.presentPrice, goodsInfo.oriPrice),
+          ],
+        ),
+      );
+    } else {
+      return Text('正在加载中...');
+    }
   }
 
   // 商品图片

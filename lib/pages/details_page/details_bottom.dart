@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provide/provide.dart';
-import '../../provide/cart.dart';
-import '../../provide/details_info.dart';
-import '../../provide/currentIndex.dart';
+import 'package:provider/provider.dart';
+import '../../provider/cart.dart';
+import '../../provider/details_info.dart';
+import '../../provider/currentIndex.dart';
 
 class DetailsBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
 
-    var goodsInfo = Provide.value<DetailsInfoProvide>(context).goodsInfo.data.goodInfo;
+    var goodsInfo = context.read<DetailsInfoProvide>().goodsInfo.data.goodInfo;
     var goodsId = goodsInfo.goodsId;
     var goodsName = goodsInfo.goodsName;
     var count = 1;
@@ -27,7 +27,7 @@ class DetailsBottom extends StatelessWidget {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  Provide.value<CurrentIndexProvide>(context).changeIndex(2);
+                  context.read<CurrentIndexProvide>().changeIndex(2);
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -40,38 +40,33 @@ class DetailsBottom extends StatelessWidget {
                   ),
                 ),
               ),
-              Provide<CartProvide>(
-                builder: (context, child, val) {
-                  int goodsCount = Provide.value<CartProvide>(context).allGoodsCount;
-                  return Positioned(
-                    top: 0,
-                    right: 10,
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
-                      decoration: BoxDecoration(
-                        color: Colors.pink,
-                        border: Border.all(
-                          width: 2,
-                          color: Colors.white,
-                        ),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Text(
-                        '$goodsCount',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: ScreenUtil().setSp(22),
-                        ),
-                      ),
+              Positioned(
+                top: 0,
+                right: 10,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                  decoration: BoxDecoration(
+                    color: Colors.pink,
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.white,
                     ),
-                  );
-                },
-              ),
-            ],
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Text(
+                    '${context.watch<CartProvide>().allGoodsCount}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: ScreenUtil().setSp(22),
+                    ),
+                  ),
+                ),
+              )
+            ]
           ),
           InkWell(
             onTap: () async {
-              await Provide.value<CartProvide>(context).save(goodsId, goodsName, count, price, images);
+              await context.read<CartProvide>().save(goodsId, goodsName, count, price, images);
             },
             child: Container(
               alignment: Alignment.center,
@@ -89,7 +84,7 @@ class DetailsBottom extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              await Provide.value<CartProvide>(context).remove();
+              await context.read<CartProvide>().remove();
             },
             child: Container(
               alignment: Alignment.center,

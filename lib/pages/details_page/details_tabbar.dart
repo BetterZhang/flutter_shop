@@ -1,37 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provide/provide.dart';
-import '../../provide/details_info.dart';
+import 'package:provider/provider.dart';
+import '../../provider/details_info.dart';
 
 class DetailsTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provide<DetailsInfoProvide>(
-      builder: (context, child, val) {
-        var isLeft = Provide.value<DetailsInfoProvide>(context).isLeft;
-        var isRight = Provide.value<DetailsInfoProvide>(context).isRight;
+    var isLeft = context.read<DetailsInfoProvide>().isLeft;
+    var isRight = context.read<DetailsInfoProvide>().isRight;
 
-        return Container(
-          margin: EdgeInsets.only(top: 15.0),
-          child: Column(
+    return Container(
+      margin: EdgeInsets.only(top: 15.0),
+      child: Column(
+        children: <Widget>[
+          Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  _myTabBarLeft(context, isLeft),
-                  _myTabBarRight(context, isRight),
-                ],
-              )
+              _myTabBarLeft(context, isLeft),
+              _myTabBarRight(context, isRight),
             ],
-          ),
-        );
-      },
+          )
+        ],
+      ),
     );
   }
 
   Widget _myTabBarLeft(BuildContext context, bool isLeft) {
     return InkWell(
       onTap: () {
-        Provide.value<DetailsInfoProvide>(context).changeLeftAndRight('left');
+        context.read<DetailsInfoProvide>().changeLeftAndRight('left');
       },
       child: Container(
         padding: EdgeInsets.all(10.0),
@@ -59,7 +55,7 @@ class DetailsTabBar extends StatelessWidget {
   Widget _myTabBarRight(BuildContext context, bool isRight) {
     return InkWell(
       onTap: () {
-        Provide.value<DetailsInfoProvide>(context).changeLeftAndRight('right');
+        context.read<DetailsInfoProvide>().changeLeftAndRight('right');
       },
       child: Container(
         padding: EdgeInsets.all(10.0),

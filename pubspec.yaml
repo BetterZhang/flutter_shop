@@ -1,6 +1,10 @@
 name: flutter_shop
 description: A new Flutter application.
 
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -22,33 +26,39 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: ^1.0.2
   # dio 网络框架
-  dio: 2.1.13
+  dio: ^4.0.4
   # swiper
   flutter_swiper: ^1.1.6
   # screen util
-  flutter_screenutil: ^0.5.2
+  flutter_screenutil: ^5.0.1
   # url_launcher
-  url_launcher: ^5.0.2
+  url_launcher: ^6.0.17
   # easyrefresh
-  flutter_easyrefresh: ^1.2.7
-  # provide
-  provide: ^1.0.2
+  flutter_easyrefresh: ^2.2.1
+  # provider
+  provider: ^6.0.1
   # fluttertoast
-  fluttertoast: ^3.1.0
+  fluttertoast: ^8.0.8
   # fluro
-  fluro: "^1.4.0"
+  fluro: ^2.0.3
   # flutter_html
-  flutter_html: ^0.9.6
+  flutter_html: ^2.2.0
   # shared_preferences
-  shared_preferences: ^0.5.3+1
+  shared_preferences: ^2.0.9
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

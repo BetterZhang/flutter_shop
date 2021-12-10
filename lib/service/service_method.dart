@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'dart:async';
-import 'dart:io';
 import 'service_url.dart';
 
 Future request(url, {formData}) async {
@@ -9,7 +8,7 @@ Future request(url, {formData}) async {
     Response response;
 
     Dio dio = new Dio();
-    dio.options.contentType = ContentType.parse('application/x-www-form-urlencoded');
+    dio.options.contentType = Headers.formUrlEncodedContentType;
 
     if (formData == null) {
       response = await dio.post(servicePath[url]);
@@ -34,7 +33,7 @@ Future getHomePageContent() async {
     Response response;
 
     Dio dio = new Dio();
-    dio.options.contentType = ContentType.parse('application/x-www-form-urlencoded');
+    dio.options.contentType = Headers.formUrlEncodedContentType;
 
     var formData = {
       'lon': '115.02932',
@@ -58,7 +57,7 @@ Future getHomePageBelowConten() async {
     Response response;
 
     Dio dio = new Dio();
-    dio.options.contentType = ContentType.parse('application/x-www-form-urlencoded');
+    dio.options.contentType = Headers.formUrlEncodedContentType;
 
     int page = 1;
     response = await dio.post(servicePath['homePageBelowConten'], data: page);
